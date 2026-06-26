@@ -2,106 +2,95 @@
 
 ## Overview
 
-This repository documents an enterprise-inspired home lab designed to strengthen practical cybersecurity, infrastructure, and security operations skills.
+This repository documents my enterprise-inspired cybersecurity lab, built to develop practical skills in identity, infrastructure, networking, and security operations while applying enterprise security principles to my own home environment.
 
-Rather than focusing on individual technologies, this environment emphasizes layered security, network segmentation, identity management, monitoring, and operational visibility.
+Rather than treating technologies as isolated tools, I designed this lab to better understand how identity, networking, monitoring, and layered security controls work together to reduce risk and improve operational visibility.
 
-The lab serves two purposes:
-
-- Protect my home environment using enterprise security principles.
-- Develop hands-on experience with technologies commonly found in modern business environments.
+Everything documented here reflects technologies I actively use, decisions I've made, lessons I've learned, and areas I'm continuing to improve.
 
 ---
 
-# Architecture
+## Design Goals
 
+* Apply enterprise security principles to a home environment.
+* Strengthen practical skills through hands-on experimentation.
+* Build and document repeatable, well-understood solutions.
+* Validate security concepts before recommending similar approaches professionally.
+* Continuously improve the environment as new technologies and security practices evolve.
+
+---
+
+## High-Level Architecture
+
+```text
 Internet
-
-↓
-
+    │
 Cox Gateway
-
-↓
-
+    │
 OPNsense Firewall
-
-↓
-
+    │
 UniFi Switching
-
-↓
-
-Segmented VLANs
-
-↓
-
-Servers / Clients / IoT / Guest
-
----
-
-## Core Infrastructure
-
-Firewall
-
-- OPNsense
-
-Virtualization
-
-- Proxmox
-
-Storage
-
-- Unraid
-
-Container Platform
-
-- Docker
-
-Wireless
-
-- UniFi U7 Pro Max
-
-Switching
-
-- UniFi Pro XG
-- UniFi Pro Max PoE
+    │
+────────────────────────────────
+│          │         │         │
+Main      IoT      Media     Guest
+    │
+Unraid • Proxmox • Infrastructure
+```
 
 ---
 
-## Security
+## Core Technologies
 
-Identity
+### Infrastructure
 
-- Microsoft Entra ID
-- Active Directory (in progress)
+* Proxmox
+* Unraid
+* Docker
 
-Network Security
+### Identity
 
-- VLAN Segmentation
-- WireGuard VPN
-- Suricata IDS
-- CrowdSec
+* Microsoft Entra ID
+* Active Directory *(currently under development)*
 
-DNS Protection
+### Networking
 
-- Unbound
-- HaGeZi Blocklists
-- Steven Black List
+* OPNsense
+* UniFi Switching
+* WireGuard VPN
+* VLAN Segmentation
+* DNS
+* DHCP (Dnsmasq)
 
-Monitoring
+### Security
 
-- Grafana
-- InfluxDB
-- UniFi Poller
-- Telegraf
+* Microsoft Defender
+* CrowdSec
+* Suricata IDS
+* Unbound DNS Filtering
+
+### Monitoring
+
+* Grafana
+* InfluxDB
+* UniFi Poller
+* Telegraf
 
 ---
 
-## Objectives
+## Repository Contents
 
-- Identity & Access Management
-- Detection Engineering
-- Security Monitoring
-- Incident Response
-- Secure Network Architecture
-- Infrastructure Automation
+* **docs/** — Detailed documentation covering architecture, networking, identity, monitoring, and future plans.
+* **diagrams/** — Network and architecture diagrams.
+* **projects/** — Individual projects, configuration decisions, and lessons learned.
+* **images/** — Supporting screenshots and diagrams.
+
+---
+
+## Current Roadmap
+
+* Expand Active Directory implementation.
+* Integrate Microsoft Entra ID with on-premises identity.
+* Forward security telemetry into Wazuh.
+* Continue refining network segmentation and security monitoring.
+* Document security decisions, architecture changes, and lessons learned.
