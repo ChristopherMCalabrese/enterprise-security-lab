@@ -1,73 +1,107 @@
 # Enterprise Security Lab
 
-## Purpose
+## Overview
 
-I built this lab to strengthen my cybersecurity skills through hands-on learning while creating a secure home environment based on enterprise security principles.
+This repository documents an enterprise-inspired home lab designed to strengthen practical cybersecurity, infrastructure, and security operations skills.
 
-Throughout my career I've learned that reading documentation only gets me so far. I learn best by building, breaking, fixing, and documenting technology. This lab gives me a place to safely experiment with new ideas, validate security concepts, and better understand how technology decisions affect people, business operations, and risk.
+Rather than focusing on individual technologies, this environment emphasizes layered security, network segmentation, identity management, monitoring, and operational visibility.
 
-The goal isn't simply to learn products—it's to become a better security professional.
+The lab serves two purposes:
 
----
-
-## Current Focus
-
-- Identity & Access Management
-- Microsoft Entra ID
-- Active Directory
-- Microsoft 365
-- Security Operations
-- Network Security
-- Incident Response
-- Endpoint Protection
+- Protect my home environment using enterprise security principles.
+- Develop hands-on experience with technologies commonly found in modern business environments.
 
 ---
 
-## Current Technologies
+# Architecture
 
-### Infrastructure
+Internet
 
-- Proxmox
-- Windows Server
-- Linux
-- Docker
+↓
 
-### Identity
+Cox Gateway
 
-- Microsoft Entra ID
-- Active Directory
-- Group Policy
+↓
 
-### Networking
+OPNsense Firewall
+
+↓
+
+UniFi Switching
+
+↓
+
+Segmented VLANs
+
+↓
+
+Servers / Clients / IoT / Guest
+
+---
+
+## Core Infrastructure
+
+Firewall
 
 - OPNsense
-- WireGuard
+
+Virtualization
+
+- Proxmox
+
+Storage
+
+- Unraid
+
+Container Platform
+
+- Docker
+
+Wireless
+
+- UniFi U7 Pro Max
+
+Switching
+
+- UniFi Pro XG
+- UniFi Pro Max PoE
+
+---
+
+## Security
+
+Identity
+
+- Microsoft Entra ID
+- Active Directory (in progress)
+
+Network Security
+
 - VLAN Segmentation
-- DNS
-- DHCP
-
-### Security
-
-- Microsoft Defender
-- Wazuh SIEM
+- WireGuard VPN
+- Suricata IDS
 - CrowdSec
-- Suricata
+
+DNS Protection
+
+- Unbound
+- HaGeZi Blocklists
+- Steven Black List
+
+Monitoring
+
+- Grafana
+- InfluxDB
+- UniFi Poller
+- Telegraf
 
 ---
 
-## Current Projects
+## Objectives
 
-- Document lab architecture
-- Expand Microsoft Entra ID integration
-- Improve network segmentation
-- Develop security monitoring workflows
-- Document lessons learned
-
----
-
-## Guiding Principles
-
-- Understand the "why," not just the "how."
-- Test ideas before recommending them.
-- Build practical security that supports the business.
-- Document lessons learned to continuously improve.
+- Identity & Access Management
+- Detection Engineering
+- Security Monitoring
+- Incident Response
+- Secure Network Architecture
+- Infrastructure Automation
