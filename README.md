@@ -1,54 +1,73 @@
-Enterprise Security Lab
-Purpose
+# Enterprise Security Lab
 
-I built this lab to strengthen my cybersecurity skills through hands-on learning while creating a secure home environment that reflects enterprise security principles.
+## Purpose
 
-Throughout my career, I've learned that the best way to understand technology is to build it, break it, fix it, and document what I learned. This lab gives me a place to safely explore new technologies, validate security concepts, and gain practical experience before recommending similar approaches in professional environments.
+I built this lab to strengthen my cybersecurity skills through hands-on learning while creating a secure home environment based on enterprise security principles.
 
-My goal is to better understand how security decisions affect people, business operations, and organizational risk—not just how individual technologies work.
+Throughout my career I've learned that reading documentation only gets me so far. I learn best by building, breaking, fixing, and documenting technology. This lab gives me a place to safely experiment with new ideas, validate security concepts, and better understand how technology decisions affect people, business operations, and risk.
 
-Current Focus
-Identity & Access Management (IAM)
-Microsoft Entra ID
-Active Directory
-Microsoft 365
-Security Operations
-Endpoint Security
-Network Segmentation
-Incident Response
-Secure Remote Access
-Technologies
-Infrastructure
-Proxmox
-Windows Server
-Linux
-Docker
-Identity
-Microsoft Entra ID
-Active Directory
-Group Policy
-Networking
-OPNsense
-WireGuard
-VLAN Segmentation
-DNS
-DHCP
-Security
-Microsoft Defender
-Wazuh SIEM
-CrowdSec
-Suricata
-Current Projects
-Build an enterprise-inspired Active Directory environment
-Expand Microsoft Entra ID integration
-Improve network segmentation using VLANs
-Enhance security monitoring with Wazuh
-Document architecture, decisions, and lessons learned
-Guiding Principles
-Security should support the business—not get in its way.
-Understand the "why," not just the "how."
-Test ideas before recommending them.
-Document lessons learned so they can be repeated and improved.
-Future Plans
+The goal isn't simply to learn products—it's to become a better security professional.
 
-This repository will continue to grow as I expand my lab, explore new technologies, and document practical cybersecurity projects and lessons learned.
+---
+
+## Current Focus
+
+- Identity & Access Management
+- Microsoft Entra ID
+- Active Directory
+- Microsoft 365
+- Security Operations
+- Network Security
+- Incident Response
+- Endpoint Protection
+
+---
+
+## Current Technologies
+
+### Infrastructure
+
+- Proxmox
+- Windows Server
+- Linux
+- Docker
+
+### Identity
+
+- Microsoft Entra ID
+- Active Directory
+- Group Policy
+
+### Networking
+
+- OPNsense
+- WireGuard
+- VLAN Segmentation
+- DNS
+- DHCP
+
+### Security
+
+- Microsoft Defender
+- Wazuh SIEM
+- CrowdSec
+- Suricata
+
+---
+
+## Current Projects
+
+- Document lab architecture
+- Expand Microsoft Entra ID integration
+- Improve network segmentation
+- Develop security monitoring workflows
+- Document lessons learned
+
+---
+
+## Guiding Principles
+
+- Understand the "why," not just the "how."
+- Test ideas before recommending them.
+- Build practical security that supports the business.
+- Document lessons learned to continuously improve.
