@@ -21,11 +21,7 @@ The certifications listed below support the technical knowledge demonstrated thr
 
 # Microsoft Certifications
 
-- Microsoft Certified: Azure Fundamentals (AZ-900)
-- Microsoft Certified: Security, Compliance, and Identity Fundamentals (SC-900)
-- Microsoft Certified: Microsoft 365 Fundamentals (MS-900)
-
-*Microsoft Learn profile coming soon.*
+*Microsoft certification verification coming soon.*
 
 ---
 
