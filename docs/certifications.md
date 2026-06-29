@@ -15,7 +15,7 @@ The certifications listed below support the technical knowledge demonstrated thr
 
 **Public Transcript**
 
-https://cp.certmetrics.com/comptia/en/public/transcript/111dbeac270b4af28a061fdc58b962ca
+[View CompTIA Certification Transcript](https://cp.certmetrics.com/comptia/en/public/transcript/111dbeac270b4af28a061fdc58b962ca)
 
 ---
 
