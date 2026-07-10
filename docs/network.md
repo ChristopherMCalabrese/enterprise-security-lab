@@ -2,226 +2,170 @@
 
 ## Overview
 
-The network is designed around the principle of segmentation. Rather than placing every device on a single trusted network, systems are separated into dedicated VLANs based on their purpose and required level of access. This approach reduces the potential impact of a compromised device while improving visibility, security, and control over network traffic.
+This homelab was designed to simulate a modern small-to-medium business network while providing a platform for learning enterprise networking, systems administration, monitoring, and security.
 
-The environment is built around OPNsense for routing and security, UniFi for switching and wireless infrastructure, and Unraid as the primary infrastructure and application platform. Core services are containerized using Docker and centrally monitored through Grafana and InfluxDB.
+Rather than placing every device on a single trusted network, systems are separated into dedicated VLANs based on purpose and trust level. Security is enforced through layered controls including network segmentation, centralized firewall policies, DNS filtering, intrusion detection, secure remote access, and infrastructure monitoring.
 
----
-
-## Network Design Philosophy
-
-The environment follows a defense-in-depth strategy rather than relying on a single security control. Security is applied through multiple complementary layers, including network segmentation, firewall policy, DNS filtering, intrusion detection, secure remote access, and centralized monitoring.
-
-Key design principles include:
-
-- Network segmentation using dedicated VLANs
-- Centralized routing and firewall policy enforcement
-- Dedicated infrastructure addressing
-- Secure remote administration using WireGuard VPN
-- DNS-based filtering through AdGuard Home
-- Intrusion detection using Suricata
-- Infrastructure monitoring using Grafana, InfluxDB, and Telegraf
-- Out-of-band server management through IPMI
+Core infrastructure consists of OPNsense, UniFi switching and wireless, an Unraid storage platform, and a Docker-based services environment.
 
 ---
 
-## Physical Topology
+# Design Philosophy
+
+The environment follows a defense-in-depth strategy.
+
+Security is implemented using multiple overlapping controls rather than relying on any single technology.
+
+Primary objectives include:
+
+- Network segmentation
+- Least-privilege firewall policies
+- Secure remote administration
+- DNS filtering
+- Intrusion detection
+- Infrastructure monitoring
+- Centralized logging
+- High availability where practical
+
+---
+
+# Physical Topology
 
 ```text
-                    Internet (Cox)
-                          │
-                    Cox Gateway
-                          │
-                    OPNsense Firewall
-                     10.10.10.1
-                          │
-                  UniFi Pro XG (Core)
-                     10 Gb Uplink
-                          │
-               UniFi Pro Max 16 PoE
-                          │
-     ┌─────────────┬──────────────┬──────────────┐
-     │             │              │
-  Unraid       UniFi U7 Pro     Client Devices
-     │
+                Internet
+                    │
+              ISP Gateway
+                    │
+             OPNsense Firewall
+                    │
+             Core 10Gb Switch
+                    │
+          Access PoE Switch
+                    │
+      ┌─────────┬──────────┬───────────┐
+      │         │          │
+   Storage    Wireless   Client Devices
+   Platform      AP
+      │
  Docker Infrastructure
- │
- ├── AdGuard Home
- ├── Grafana
- ├── InfluxDB
- ├── Home Assistant
- ├── UniFi Network Application
- ├── UniFi Poller
- ├── Plex
- ├── Immich
- ├── Vaultwarden
- ├── Sonarr
- ├── Radarr
- ├── Prowlarr
- ├── qBittorrent
- ├── CrowdSec
- └── Wazuh Agent
 ```
 
 ---
 
 # Core Infrastructure
 
-| Device / Service | Address | Purpose |
-|------------------|----------|---------|
-| Cox Gateway | 192.168.0.1 | ISP edge gateway |
-| OPNsense (bastion.internal) | 10.10.10.1 | Firewall, inter-VLAN routing, Kea DHCP, Unbound DNS |
-| UniFi USW Pro XG | 10.10.10.2 | Core switching |
-| UniFi USW Pro Max 16 PoE | 10.10.10.3 | Access and PoE switching |
-| UniFi U7 Pro Max | 10.10.10.4 | Wireless access point |
-| AdGuard Home | 10.10.10.5 | DNS filtering and upstream DNS resolution |
-| Unraid (tower) | 10.10.10.10 | Storage, Docker, monitoring, and application hosting |
-| Tower IPMI (ipmi.home.arpa) | 10.10.10.11 | Out-of-band management, remote KVM, hardware monitoring |
-| UniFi Network Application | https://10.10.10.10:8443 | Network management platform |
+| Component | Purpose |
+|-----------|---------|
+| OPNsense | Firewall, Routing, DHCP, DNS |
+| UniFi Switching | Layer 2 switching |
+| UniFi Wireless | Wireless networking |
+| Storage Platform | File storage and Docker host |
+| AdGuard Home | DNS filtering |
+| IPMI | Out-of-band server management |
+| Grafana | Visualization |
+| InfluxDB | Time-series database |
+| Telegraf | Metrics collection |
+| Wazuh | Endpoint monitoring |
+| CrowdSec | Threat detection |
 
 ---
 
 # Network Segmentation
 
-The environment is divided into dedicated VLANs based on trust level and device purpose.
+The network is divided into multiple VLANs based on trust level.
 
-## Main Network
+## Trusted Network
 
-**Subnet:** 10.10.10.0/24
-
-Primary trusted network used for workstations, servers, management interfaces, and infrastructure.
-
-**SSID:** Linksys501
+Used for workstations, servers, and administrative systems.
 
 ---
 
 ## IoT Network
 
-**Subnet:** 192.168.20.0/24
+Dedicated network for smart home devices.
 
-Dedicated network for smart home and embedded devices. Devices are isolated from trusted systems through firewall policy to reduce attack surface.
-
-**SSID:** Covid-19-IoT
+Traffic is isolated from trusted systems through firewall policy.
 
 ---
 
 ## Media Network
 
-**Subnet:** 192.168.30.0/24
-
-Dedicated network for streaming devices and media appliances, reducing unnecessary communication with trusted systems.
-
-**SSID:** DIRECT-TV-4K
+Dedicated network for streaming devices.
 
 ---
 
 ## Guest Network
 
-**Subnet:** 192.168.40.0/24
+Internet-only access for guest devices.
 
-Internet-only guest access with no access to trusted internal resources.
-
-**SSID:** The Force
+Internal resources remain inaccessible.
 
 ---
 
 # DHCP
 
-Kea DHCP provides centralized address management across all VLANs.
+Centralized DHCP services provide:
 
-Configuration includes:
-
-- Dynamic address pools
-- Static reservations for infrastructure devices
-- VLAN-aware DHCP scopes
+- Dynamic address allocation
+- Static infrastructure reservations
+- VLAN-aware address scopes
 - Centralized lease management
-- Reserved management addressing
-
-Kea was selected as the modern DHCP implementation supported by OPNsense.
 
 ---
 
 # DNS
 
-DNS services are provided through OPNsense Unbound and AdGuard Home.
+DNS services combine a local resolver with DNS filtering.
 
-Responsibilities are separated to simplify management and improve security.
+Responsibilities include:
 
-### AdGuard Home
-
-- DNS filtering
-- Malware protection
-- Advertising and tracker blocking
-- Upstream DNS forwarding
-- Query logging
-
-### Unbound DNS
-
-- Local DNS resolution
-- Internal hostname resolution
-- DNS forwarding
+- Local hostname resolution
 - DNS caching
+- Malware protection
+- Ad and tracker blocking
+- DNS query logging
 
-Current DNS protection includes:
-
-- HaGeZi Multi NORMAL
-- Steven Black Hosts
-
-This layered approach blocks known malicious, advertising, and tracking domains before connections are established.
+Layered DNS filtering reduces access to malicious domains before connections are established.
 
 ---
 
 # Firewall
 
-OPNsense provides centralized routing and firewall policy enforcement between VLANs.
-
-Firewall policies are designed using least-privilege principles.
+Centralized firewall policies enforce communication between VLANs.
 
 Examples include:
 
-- Guest devices restricted to Internet access only
+- Guest network restricted to Internet access
 - IoT devices isolated from trusted systems
 - Infrastructure services accessible only from trusted networks
-- Inter-VLAN communication explicitly permitted where required
+- Explicitly permitted inter-VLAN communication
 
 ---
 
 # Secure Remote Access
 
-WireGuard provides encrypted remote connectivity into the environment.
+Remote administration is performed through WireGuard VPN.
 
-Administrative access is performed exclusively through the VPN rather than exposing management interfaces directly to the Internet.
-
-Benefits include:
-
-- Secure remote administration
-- Encrypted management traffic
-- Reduced attack surface
-- Multi-device support
+Management interfaces are not exposed directly to the Internet.
 
 ---
 
 # Intrusion Detection
 
-Suricata is deployed on the WAN interface in IDS mode.
+Suricata monitors WAN traffic using community threat signatures.
 
-Configuration includes approximately 41,000 detection rules.
-
-Running in IDS mode allows alerts to be evaluated and tuned before enabling IPS functionality, reducing unnecessary false positives while maintaining visibility into potential threats.
+IDS mode is used for alerting while minimizing operational impact.
 
 ---
 
 # Monitoring
 
-Infrastructure monitoring is performed using a centralized observability stack.
-
-Components include:
+Infrastructure monitoring is performed using:
 
 - Grafana
 - InfluxDB
 - Telegraf
 - UniFi Poller
-- Wazuh Agent
 
 Collected metrics include:
 
@@ -229,74 +173,55 @@ Collected metrics include:
 - Memory utilization
 - Storage utilization
 - Network throughput
-- Temperature monitoring
 - Interface statistics
-- Wireless statistics
-- Infrastructure availability
+- System temperatures
 
 ---
 
-# Core Services
+# Containerized Services
 
-The Unraid platform hosts the majority of infrastructure services using Docker.
+The storage platform hosts infrastructure applications using Docker.
 
-Core applications include:
+Representative services include:
 
-- AdGuard Home
-- Grafana
-- InfluxDB
-- Home Assistant
-- UniFi Network Application
-- UniFi Poller
-- Plex Media Server
-- Immich
-- Vaultwarden
-- qBittorrent
-- Sonarr
-- Radarr
-- Prowlarr
-- CrowdSec
-- Wazuh Agent
+- DNS filtering
+- Infrastructure monitoring
+- Network management
+- Home automation
+- Media management
+- Password management
+- Photo management
+- Security monitoring
 
-Docker allows services to remain isolated while simplifying deployment, upgrades, and backup operations.
+Docker simplifies deployment, upgrades, and application isolation.
 
 ---
 
 # Storage Platform
 
-Unraid provides centralized storage and application hosting.
+The storage environment provides:
 
-Current configuration includes:
-
-- Single parity protection
-- Multiple enterprise-class HDDs
-- Dedicated SSD cache
-- Docker application hosting
-- SMB network shares
-- Media storage
+- Parity-protected storage
+- SSD cache
+- Container hosting
+- Network file shares
 - Backup storage
 
-Recent infrastructure improvements included replacement of a failed 16 TB parity drive followed by a complete parity rebuild and validation.
+The platform supports both infrastructure services and user data while allowing online expansion.
 
 ---
 
 # Out-of-Band Management
 
-A dedicated Supermicro IPMI interface provides independent hardware management.
-
-Capabilities include:
+Dedicated server management hardware provides:
 
 - Remote power control
 - Hardware health monitoring
-- Remote KVM
-- BIOS configuration
-- Console access independent of the operating system
+- BIOS access
+- Remote console
+- KVM over IP
 
-Management Address:
-
-```
-10.10.10.11
-```
+This enables hardware administration independent of the operating system.
 
 ---
 
@@ -304,39 +229,33 @@ Management Address:
 
 ## Why OPNsense?
 
-OPNsense provides enterprise-grade firewalling, routing, WireGuard VPN, Suricata IDS, DNS services, and detailed monitoring while remaining open source. It offers practical experience with technologies commonly deployed within SMB and enterprise environments.
+Provides enterprise-class routing, firewalling, VPN, IDS, DNS services, and monitoring while remaining open source.
 
 ---
 
 ## Why VLAN Segmentation?
 
-Separating devices according to trust level significantly reduces lateral movement opportunities and minimizes the impact of compromised systems.
-
----
-
-## Why Unraid?
-
-Unraid combines flexible storage management with integrated Docker virtualization, allowing infrastructure services, monitoring, media applications, and backups to coexist on a single platform while maintaining redundancy and ease of administration.
+Separating devices according to trust level limits lateral movement and reduces the impact of compromised systems.
 
 ---
 
 ## Why Docker?
 
-Docker provides application isolation, simplified deployment, straightforward upgrades, and reproducible infrastructure while minimizing resource overhead.
+Containerization provides application isolation, simplified deployment, reproducible environments, and efficient resource utilization.
 
 ---
 
 ## Why WireGuard?
 
-WireGuard offers modern cryptography, excellent performance, and secure remote administration without exposing management services to the Internet.
+WireGuard provides secure, high-performance remote administration without exposing management services directly to the Internet.
 
 ---
 
-## Lessons Learned
+# Lessons Learned
 
-Building the environment provided practical experience with:
+Building and operating this environment provided hands-on experience with:
 
-- Enterprise firewall deployment
+- Enterprise firewall administration
 - VLAN design
 - DNS architecture
 - Docker administration
@@ -344,22 +263,21 @@ Building the environment provided practical experience with:
 - Storage management
 - Secure remote access
 - IDS deployment
-- Infrastructure troubleshooting
-- Documentation and change management
+- Incident troubleshooting
+- Infrastructure documentation
+- Change management
 
-Several real-world incidents—including DNS resolution failures, Docker container troubleshooting, storage hardware replacement, parity rebuilds, and service recovery—provided valuable operational experience beyond initial deployment.
+Real-world troubleshooting included storage recovery, parity rebuilds, DNS architecture redesign, container debugging, and service restoration.
 
 ---
 
 # Future Improvements
 
-- Create a dedicated Management VLAN
-- Implement automated configuration backups
-- Restore Docker container monitoring in Telegraf
-- Integrate UPS monitoring and graceful shutdown
-- Expand Active Directory deployment
-- Integrate Microsoft Entra ID
-- Forward Suricata alerts into Wazuh
-- Deploy Prometheus alongside InfluxDB
-- Continue documenting infrastructure changes and security decisions
-- Develop infrastructure-as-code for repeatable deployments
+- Dedicated management network
+- Automated infrastructure backups
+- Infrastructure-as-Code
+- Centralized identity services
+- Enhanced security monitoring
+- Automated alerting
+- Additional monitoring integrations
+- Configuration management
