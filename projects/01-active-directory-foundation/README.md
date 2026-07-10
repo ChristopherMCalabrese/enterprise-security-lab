@@ -17,6 +17,15 @@ Deploy a Windows Server 2022 domain controller to serve as the identity platform
 - Join Windows endpoints to the domain.
 - Prepare the environment for centralized security monitoring.
 
+## Build Decisions
+
+| Decision | Reason |
+|----------|--------|
+| Proxmox VE | Enterprise-grade virtualization platform |
+| VirtIO | Optimized storage and network performance |
+| UEFI | Modern firmware standard |
+| Windows Server 2022 | Current enterprise Windows Server platform |
+
 ## Technologies
 
 - Proxmox VE
