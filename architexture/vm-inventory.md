@@ -6,10 +6,11 @@ This document provides an inventory of all virtual machines used in the Enterpri
 
 Maintaining an accurate asset inventory is a foundational security practice that supports system administration, vulnerability management, incident response, and change management.
 
+**Note:** Hostnames, network topology, and infrastructure details have been sanitized where appropriate. No production credentials, public IP addresses, or sensitive configuration data are included in this repository.
 ---
-| Hostname | Role              | OS                  | Network Zone      | Addressing        |
-| -------- | ----------------- | ------------------- | ----------------- | ----------------- |
-| DC01     | Domain Controller | Windows Server 2022 | Server VLAN       | Static private IP |
-| WIN11-01 | Workstation       | Windows 11          | User VLAN         | DHCP reservation  |
-| UBU01    | Linux Server      | Ubuntu Server       | Server VLAN       | Static private IP |
-| ATTACK01 | Testing VM        | Windows 11          | Isolated Lab VLAN | Static private IP |
+| Hostname | Role              | Purpose                                     | OS                  | Network Zone      | Status     |
+| -------- | ----------------- | ------------------------------------------- | ------------------- | ----------------- | ---------- |
+| DC01     | Domain Controller | Active Directory, DNS, Group Policy         | Windows Server 2022 | Server VLAN       | Production |
+| WIN11-01 | Endpoint          | User workstation for monitoring and testing | Windows 11          | User VLAN         | Production |
+| UBU01    | Linux Server      | Docker-hosted security services             | Ubuntu Server       | Server VLAN       | Production |
+| ATTACK01 | Attack VM         | Atomic Red Team and adversary emulation     | Windows 11          | Isolated Lab VLAN | Testing    |
