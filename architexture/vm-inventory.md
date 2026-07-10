@@ -1,4 +1,4 @@
-# Virtual Machine Inventory
+# Asset Inventory
 
 ## Overview
 
@@ -6,7 +6,9 @@ This document provides an inventory of all virtual machines used in the Enterpri
 
 Maintaining an accurate asset inventory is a foundational security practice that supports system administration, vulnerability management, incident response, and change management.
 
-**Note:** Hostnames, network topology, and infrastructure details have been sanitized where appropriate. No production credentials, public IP addresses, or sensitive configuration data are included in this repository.
+> [!NOTE]
+> Hostnames, network topology, and infrastructure details have been sanitized where appropriate. No production credentials, public IP addresses, or sensitive configuration data are included in this repository.
+> 
 ---
 | Hostname | Role              | Purpose                                     | OS                  | Network Zone      | Status     |
 | -------- | ----------------- | ------------------------------------------- | ------------------- | ----------------- | ---------- |
@@ -14,3 +16,10 @@ Maintaining an accurate asset inventory is a foundational security practice that
 | WIN11-01 | Endpoint          | User workstation for monitoring and testing | Windows 11          | User VLAN         | Production |
 | UBU01    | Linux Server      | Docker-hosted security services             | Ubuntu Server       | Server VLAN       | Production |
 | ATTACK01 | Attack VM         | Atomic Red Team and adversary emulation     | Windows 11          | Isolated Lab VLAN | Testing    |
+---
+**Document Owner:** Christopher McCalabrese
+
+**Last Updated:** July 2026
+
+**Environment:** Enterprise Security Lab
+---
