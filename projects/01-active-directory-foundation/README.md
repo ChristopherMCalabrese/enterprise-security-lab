@@ -6,13 +6,13 @@
 
 ## Objective
 
-Deploy a Windows Server 2022 domain controller to serve as the identity platform for the Enterprise Security Lab. This server will provide Active Directory Domain Services (AD DS), DNS, and Group Policy for future security monitoring and detection projects.
+Build the foundational identity infrastructure for the Enterprise Security Lab by deploying a Windows Server 2022 domain controller. This project establishes Active Directory Domain Services (AD DS), DNS, and Group Policy to support future security monitoring, endpoint management, and detection engineering projects.
 
 ---
 
 ## Why This Project Matters
 
-Active Directory remains the identity platform for most enterprise Windows environments. Building and securing a domain from the ground up provides the foundation for security monitoring, threat hunting, identity management, Group Policy, and incident response. This project establishes the core infrastructure that future projects—including Sysmon, Windows Event Forwarding, Microsoft Sentinel, and Microsoft Defender—will build upon.
+Active Directory remains the identity platform for most enterprise Windows environments. Designing, deploying, and securing an Active Directory environment from the ground up provides the foundation for security monitoring, threat hunting, identity management, Group Policy, and incident response. This project establishes the core infrastructure that future projects—including Sysmon, Windows Event Forwarding, Microsoft Sentinel, and Microsoft Defender—will build upon.
 
 ---
 
@@ -42,21 +42,26 @@ Planned Technologies
 
 ## Progress
 
-- [x] Project created
-- [x] Windows Server 2022 ISO downloaded
-- [x] VirtIO driver ISO downloaded
-- [x] Installation media uploaded to Proxmox
-- [x] Windows Server virtual machine created
-- [x] Enterprise virtualization settings configured
-- ☑ Windows installation initiated
-- ☑ VirtIO storage driver loaded
-- ☑ Virtual disk detected
-- [x] Windows Server installed
-- [ ] Rename server to DC01
-- [ ] Configure static networking
-- [ ] Install AD DS
-- [ ] Promote to Domain Controller
-- [ ] Create baseline snapshot
+Completed
+
+☑ Project created
+☑ Windows Server 2022 ISO downloaded
+☑ VirtIO driver ISO downloaded
+☑ Installation media uploaded to Proxmox
+☑ Windows Server virtual machine created
+☑ Enterprise virtualization settings configured
+☑ Windows installation initiated
+☑ VirtIO storage driver loaded
+☑ Virtual disk detected
+
+Upcoming
+
+⬜ Complete Windows Server installation
+⬜ Rename server to DC01
+⬜ Configure static networking
+⬜ Install Active Directory Domain Services
+⬜ Promote to Domain Controller
+⬜ Create baseline snapshot
 
 ---
 
@@ -74,6 +79,7 @@ Planned Technologies
 | Network Adapter | VirtIO |
 | TPM | TPM 2.0 |
 | QEMU Guest Agent | Planned |
+| Operating System | Windows Server 2022 Standard Evaluation (Desktop Experience)
 
 ---
 
@@ -90,7 +96,7 @@ Planned Technologies
 
 ---
 
-## Lessons Learned
+## Implementation Notes
 
 ### Using VirtIO with Windows Server
 
@@ -102,11 +108,23 @@ Using **Host** CPU exposes the physical processor's native instruction set to th
 
 ---
 
-## Next Steps
+## Next Milestones
 
-- Install Windows Server 2022.
-- Configure static IP addressing.
-- Rename the server to **DC01**.
-- Install Active Directory Domain Services.
-- Promote the server to the first domain controller.
-- Create a Proxmox snapshot after the baseline configuration is complete.
+• Complete Windows Server installation
+• Configure baseline operating system settings
+• Establish static networking
+• Promote the server to the first domain controller
+• Validate Active Directory and DNS functionality
+• Capture a baseline Proxmox snapshot
+
+---
+
+## Related Projects
+
+This project serves as the foundation for:
+
+- Project 02 – Windows Endpoint Deployment
+- Project 03 – Sysmon Deployment
+- Project 04 – Windows Event Forwarding
+- Project 05 – Wazuh Integration
+- Project 06 – Microsoft Sentinel
