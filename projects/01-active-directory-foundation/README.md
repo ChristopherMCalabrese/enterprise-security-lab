@@ -8,6 +8,15 @@
 
 Deploy a Windows Server 2022 domain controller to serve as the identity platform for the Enterprise Security Lab. This server will provide Active Directory Domain Services (AD DS), DNS, and Group Policy for future security monitoring and detection projects.
 
+## Learning Objectives
+
+- Deploy a Windows Server 2022 virtual machine using Proxmox.
+- Configure enterprise virtualization settings using VirtIO.
+- Install Active Directory Domain Services.
+- Configure DNS for an internal domain.
+- Join Windows endpoints to the domain.
+- Prepare the environment for centralized security monitoring.
+
 ## Technologies
 
 - Proxmox VE
