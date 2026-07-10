@@ -40,9 +40,9 @@ Deploy a Windows Server 2022 domain controller to serve as the identity platform
 - [x] Installation media uploaded to Proxmox
 - [x] Windows Server virtual machine created
 - [x] Enterprise virtualization settings configured
-- [x] Windows Server installation started
-- [x] VirtIO storage driver loaded
-- [x] Virtual disk detected
+☑ Windows installation initiated
+☑ VirtIO storage driver loaded
+☑ Virtual disk detected
 - [x] Windows Server installed
 - [ ] Rename server to DC01
 - [ ] Configure static networking
