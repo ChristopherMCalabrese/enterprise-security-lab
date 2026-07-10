@@ -10,14 +10,19 @@ Deploy a Windows Server 2022 domain controller to serve as the identity platform
 
 ---
 
-## Learning Objectives
+## Why This Project Matters
 
-- Deploy a Windows Server 2022 virtual machine using Proxmox VE.
-- Configure enterprise virtualization settings using VirtIO.
-- Install Active Directory Domain Services.
-- Configure DNS for an internal domain.
-- Join Windows endpoints to the domain.
-- Prepare the environment for centralized security monitoring.
+Active Directory remains the identity platform for most enterprise Windows environments. Building and securing a domain from the ground up provides the foundation for security monitoring, threat hunting, identity management, Group Policy, and incident response. This project establishes the core infrastructure that future projects—including Sysmon, Windows Event Forwarding, Microsoft Sentinel, and Microsoft Defender—will build upon.
+
+---
+
+Learning Objectives
+
+- Build an enterprise Active Directory environment.
+- Configure centralized identity management.
+- Deploy DNS to support Active Directory.
+- Establish the foundation for Windows Event Forwarding.
+- Prepare endpoints for Microsoft Sentinel and Sysmon integration.
 
 ---
 
@@ -26,9 +31,12 @@ Deploy a Windows Server 2022 domain controller to serve as the identity platform
 - Proxmox VE 9
 - Windows Server 2022
 - VirtIO Drivers
-- Active Directory (planned)
-- DNS (planned)
-- Group Policy (planned)
+
+Planned Technologies
+
+- Active Directory Domain Services
+- DNS Server
+- Group Policy
 
 ---
 
