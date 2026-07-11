@@ -2,7 +2,7 @@
 
 ## Status
 
-🟡 In Progress
+🟢 Complete
 
 ---
 
@@ -37,6 +37,7 @@ Active Directory remains the identity platform for most enterprise Windows envir
 - VirtIO Drivers
 - Active Directory Domain Services
 - DNS Server
+- QEMU Guest Agent
 
 ### Planned
 
@@ -67,9 +68,9 @@ Active Directory remains the identity platform for most enterprise Windows envir
 - [x] DNS Server installed
 - [x] New Active Directory forest created (`lab.home.arpa`)
 - [x] Domain controller promoted
-- [ ] DNS forwarders configured
-- [ ] Domain health validated
-- [ ] Baseline Proxmox snapshot created
+- [x] DNS forwarders configured
+- [x] Domain health validated
+- [x] Baseline Proxmox snapshot created
 
 ---
 
@@ -97,11 +98,12 @@ Active Directory remains the identity platform for most enterprise Windows envir
 |----------|--------|
 | UEFI (OVMF) | Modern firmware standard for Windows Server deployments |
 | Q35 Machine Type | Modern chipset emulation with improved compatibility |
-| Host CPU | Provides maximum performance in a single-node Proxmox environment where live migration is unnecessary |
-| VirtIO SCSI | High-performance paravirtualized storage controller |
+| Host CPU | Maximum performance in a single-node Proxmox environment |
+| VirtIO SCSI | High-performance paravirtualized storage |
 | VirtIO Network | Optimized virtual networking with reduced CPU overhead |
-| TPM 2.0 | Supports modern Windows security features and aligns with enterprise deployments |
-| `lab.home.arpa` | RFC 8375 reserved namespace for private home networks, avoiding conflicts with public DNS |
+| TPM 2.0 | Supports modern Windows security features |
+| `lab.home.arpa` | RFC 8375 reserved namespace for private home networks |
+| Static IP (10.10.10.21) | Ensures reliable AD and DNS service discovery |
 
 ---
 
@@ -113,31 +115,69 @@ Windows Server 2022 does not include native VirtIO storage drivers. The VirtIO d
 
 ### QEMU Guest Agent
 
-Installing the QEMU Guest Agent inside Windows is only part of the configuration. The feature must also be enabled within Proxmox before enhanced guest management features—including IP reporting and guest communication—become available.
+Installing the QEMU Guest Agent inside Windows is only part of the configuration. The feature must also be enabled within Proxmox before enhanced guest management features—including IP reporting, graceful shutdown, and guest communication—become available.
 
-### Why Host CPU?
+### Active Directory DNS
 
-Using the **Host** CPU type exposes the physical processor's native instruction set directly to the guest operating system, maximizing virtual machine performance. This configuration is appropriate for a homelab or single-node Proxmox deployment where live migration is not required.
+The domain controller hosts an Active Directory-integrated DNS zone for `lab.home.arpa`. External DNS queries are forwarded to AdGuard Home (10.10.10.5), allowing internal name resolution while preserving centralized DNS filtering.
 
 ### Why `lab.home.arpa`?
 
-The Active Directory forest uses the `lab.home.arpa` namespace, which is reserved by RFC 8375 for private home networks. This avoids conflicts with publicly registered domains while following current Microsoft and IETF recommendations for internal Active Directory deployments.
+The Active Directory forest uses the `lab.home.arpa` namespace, which is reserved by RFC 8375 for private home networks. Using a reserved namespace avoids conflicts with publicly registered domains while following current Microsoft recommendations.
 
 ---
 
-## Next Milestones
+## Validation
 
-- Configure DNS forwarders
-- Validate Active Directory and DNS health
-- Capture a baseline Proxmox snapshot
-- Deploy the first Windows workstation
+The completed deployment was validated using:
+
+- `dcdiag`
+- `dcdiag /test:dns`
+- `nslookup google.com`
+- `nslookup dc01.lab.home.arpa`
+
+Validation confirmed:
+
+- Active Directory healthy
+- DNS forwarders operational
+- Internal DNS resolution functioning
+- External DNS resolution functioning
+- SYSVOL successfully shared
+- Domain controller advertising correctly
+
+---
+
+## Outcome
+
+Project 01 established the identity foundation for the Enterprise Security Lab.
+
+The environment now includes:
+
+- Active Directory Forest: `lab.home.arpa`
+- Domain Controller: `DC01`
+- Integrated DNS
+- Functional QEMU Guest Agent
+- Static infrastructure addressing
+- Baseline Proxmox snapshot for future recovery
+
+This environment now serves as the foundation for all future Windows-based enterprise security projects.
+
+---
+
+## Next Project
+
+**Project 02 – Windows Endpoint Deployment**
+
+Objectives:
+
+- Deploy Windows 11 Enterprise
 - Join the workstation to `lab.home.arpa`
+- Validate domain authentication
+- Prepare the endpoint for Group Policy, Sysmon, and Windows Event Forwarding
 
 ---
 
 ## Related Projects
-
-This project serves as the foundation for:
 
 - Project 02 – Windows Endpoint Deployment
 - Project 03 – Sysmon Deployment
