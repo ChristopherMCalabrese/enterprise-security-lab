@@ -8,18 +8,35 @@ Maintaining an accurate asset inventory is a foundational cybersecurity practice
 
 > [!NOTE]
 > Hostnames, network topology, and infrastructure details have been sanitized where appropriate. No production credentials, public IP addresses, or sensitive configuration data are included in this repository.
-> 
----
-Asset ID | Hostname | Role              | Purpose                                     | OS                  | Network Zone      | Status     |
--------- | -------- | ----------------- | ------------------------------------------- | ------------------- | ----------------- | ---------- |
-VM-001   | DC01     | Domain Controller | Active Directory, DNS, Group Policy         | Windows Server 2022 | Server VLAN       | Production |
-VM-002   | WIN11-01 | Endpoint          | User workstation for monitoring and testing | Windows 11          | User VLAN         | Production |
-VM-003   | UBU01    | Linux Server      | Docker-hosted security services             | Ubuntu Server       | Server VLAN       | Production |
-VM-004   | ATTACK01 | Attack VM         | Atomic Red Team and adversary emulation     | Windows 11          | Isolated Lab VLAN | Testing    |
----
-Document Owner: Christopher M Calabrese
 
-Last Updated: 2026-07-09
+---
+
+| Asset ID | Hostname | Role | Purpose | Operating System | Network | Status |
+|----------|----------|------|---------|------------------|---------|--------|
+| INF-001 | Proxmox | Hypervisor | Virtualization platform hosting enterprise infrastructure | Proxmox VE 9 | Infrastructure | Production |
+| INF-002 | OPNsense | Firewall | Routing, firewall, DHCP, DNS, WireGuard VPN | OPNsense | Infrastructure | Production |
+| VM-001 | DC01 | Domain Controller | Active Directory, DNS, Group Policy | Windows Server 2022 | Main (10.10.10.0/24) | Production |
+| VM-002 | WIN11-01 | Domain Workstation | Domain-joined Windows Enterprise endpoint for administration, monitoring, and testing | Windows 11 Enterprise | Main (DHCP) | Production |
+| VM-003 | UBU01 | Linux Server | Docker-hosted security services | Ubuntu Server | Main | Planned |
+| VM-004 | ATTACK01 | Attack Workstation | Atomic Red Team and adversary emulation | Windows 11 Enterprise | Isolated Lab VLAN | Planned |
+
+---
+
+## Current Environment Summary
+
+| Category | Count |
+|----------|------:|
+| Hypervisors | 1 |
+| Firewalls | 1 |
+| Domain Controllers | 1 |
+| Windows Endpoints | 1 |
+| Linux Servers | 0 |
+| Attack Workstations | 0 |
+
+---
+
+**Document Owner:** Christopher M. Calabrese
+
+**Last Updated:** 2026-07-11
 
 **Environment:** Enterprise Security Lab
----
