@@ -1,156 +1,163 @@
-# Project 03 – Active Directory Administration
-
-## Status
-
-🟡 In Progress
-
----
+# Project 03 – Active Directory Organization and Administration
 
 ## Objective
 
-Transform the Active Directory deployment into a manageable enterprise environment by implementing an organizational unit (OU) structure, administrative delegation, security groups, and baseline Group Policy Objects (GPOs). This project establishes the administrative framework that will support endpoint hardening, centralized management, and future security monitoring initiatives.
+Design and implement an enterprise-style Active Directory organizational structure by creating Organizational Units (OUs), administrative accounts, standard user accounts, and security groups following least-privilege and role-based access control (RBAC) principles.
+
+This project establishes the identity management foundation that will support Group Policy, endpoint management, delegated administration, Windows Event Forwarding, Wazuh, Microsoft Defender, and Microsoft Sentinel throughout the remainder of the Enterprise Security Lab.
 
 ---
 
-## Why This Project Matters
+# Learning Objectives
 
-Enterprise Active Directory environments are organized around logical administration rather than individual systems. Organizational Units, security groups, and Group Policy enable centralized management, delegated administration, and consistent security configuration across all domain-joined systems.
-
-This project establishes the administrative structure that future projects—including Sysmon, Windows Event Forwarding, Wazuh, Microsoft Defender, and Microsoft Sentinel—will leverage for automated deployment and policy enforcement.
-
----
-
-## Learning Objectives
-
-- Design an enterprise Organizational Unit (OU) structure.
-- Implement logical administrative separation.
-- Create administrative and standard user accounts.
-- Implement role-based security groups.
-- Create and link custom Group Policy Objects.
-- Validate Group Policy inheritance and processing.
-- Prepare the environment for centralized endpoint management.
+- Design an enterprise Organizational Unit (OU) hierarchy.
+- Separate administrative and standard user identities.
+- Implement Role-Based Access Control (RBAC).
+- Create Global Security Groups following Microsoft best practices.
+- Establish naming standards for Active Directory objects.
+- Prepare the directory structure for Group Policy deployment.
 
 ---
 
-## Technologies
+# Technologies
 
-### Implemented
+## Implemented
 
+- Windows Server 2022
 - Active Directory Domain Services
-- Active Directory Users and Computers
-- Group Policy Management
+- Active Directory Users and Computers (ADUC)
+- Active Directory PowerShell Module
 - DNS
+- Windows 11 Enterprise
 
-### Planned
+## Planned
 
+- Group Policy
 - Sysmon
 - Windows Event Forwarding
-- Wazuh Agent
+- Wazuh
 - Microsoft Defender
 - Microsoft Sentinel
 
 ---
 
-## Progress
+# Progress
 
-- [ ] Design Organizational Unit structure
-- [ ] Create Administrative OU
-- [ ] Create Servers OU
-- [ ] Create Workstations OU
-- [ ] Create Users OU
-- [ ] Create Groups OU
-- [ ] Create Service Accounts OU
-- [ ] Create administrative user account
-- [ ] Create standard user account
-- [ ] Create administrative security groups
-- [ ] Create workstation security groups
-- [ ] Move WIN11-01 into the Workstations OU
-- [ ] Create Workstation Baseline GPO
-- [ ] Create Server Baseline GPO
-- [ ] Create Windows Firewall GPO
-- [ ] Create Microsoft Defender GPO
-- [ ] Validate Group Policy processing
-- [ ] Validate Group Policy inheritance
-- [ ] Document OU hierarchy
-- [ ] Baseline Proxmox snapshot created
+- [x] Administrative OU created
+- [x] Administrative Users OU created
+- [x] Administrative Groups OU created
+- [x] Workstations OU created
+- [x] Administrative account created
+- [x] Standard user account created
+- [x] Administrative account renamed using enterprise naming standards
+- [x] Administrative account added to Domain Admins
+- [x] Standard user validated
+- [x] Built-in Administrator account disabled
+- [x] Global Security Groups created
+- [x] Administrative group memberships assigned
+- [x] Naming standards documented
+- [ ] Workstation Baseline GPO created
+- [ ] Group Policy validated
+- [ ] Baseline snapshot created
 
 ---
 
-## Proposed Organizational Structure
+# Organizational Unit Structure
 
 ```text
 lab.home.arpa
 │
-├── Domain Controllers
-│
 ├── Administrative
-│   ├── Users
-│   └── Groups
-│
-├── Servers
+│   ├── Groups
+│   └── Users
 │
 ├── Workstations
 │
-├── Users
-│
-├── Groups
-│
-└── Service Accounts
+├── Builtin
+├── Computers
+├── Domain Controllers
+├── ForeignSecurityPrincipals
+├── Managed Service Accounts
+├── Service Accounts
+└── Users
 ```
 
 ---
 
-## Engineering Decisions
+# Administrative Accounts
+
+| Account | Purpose |
+|----------|---------|
+| adm-ccalabrese | Enterprise administration |
+| ccalabrese | Daily user account |
+
+The built-in **Administrator** account has been disabled after validating administrative access through the dedicated administrative account.
+
+---
+
+# Security Groups
+
+| Group | Purpose |
+|---------|---------|
+| Domain Admins | Domain-wide administration |
+| GG-Server-Operators | Windows server administration |
+| GG-Workstation-Admins | Windows workstation administration |
+| GG-Helpdesk | Tier 1 support (reserved) |
+| GG-Wazuh-Admins | Wazuh administration |
+| GG-Sentinel-Admins | Microsoft Sentinel administration |
+
+---
+
+# Engineering Decisions
 
 | Decision | Reason |
 |----------|--------|
-| Separate OUs by administrative function | Simplifies administration and Group Policy targeting |
-| Dedicated administrative accounts | Supports least-privilege administration |
-| Separate administrative and standard users | Reduces administrative exposure and aligns with enterprise security practices |
-| Security groups for permissions | Enables role-based access control and scalable permission management |
-| Custom Group Policy Objects | Preserves default policies and simplifies troubleshooting |
-| Separate workstation and server policies | Allows security baselines to evolve independently |
+| Separate admin account | Enforces least privilege and aligns with enterprise security practices |
+| Disable built-in Administrator | Reduces attack surface and encourages named administrative identities |
+| Administrative OU | Centralizes privileged identities and administrative groups |
+| Global Security Groups | Implements Role-Based Access Control (RBAC) |
+| Enterprise naming standards | Improves consistency, scalability, and maintainability |
 
 ---
 
-## Validation
+# Validation
 
-The deployment will be validated by confirming:
+The project was validated by confirming:
 
+- Administrative account successfully authenticates
+- Standard user successfully authenticates
+- Administrative privileges function correctly
+- Built-in Administrator account disabled
 - Organizational Units created successfully
-- Administrative and standard user authentication
-- Security group membership
-- Correct OU placement of domain objects
-- Successful Group Policy inheritance
-- Successful `gpupdate /force`
-- Successful `gpresult /r`
+- Security Groups created successfully
+- Administrative memberships validated
+- Active Directory PowerShell management functional
 
 ---
 
-## Outcome
+# Challenges Encountered
 
-Upon completion, the Active Directory environment will support centralized administration through Organizational Units, security groups, and custom Group Policy Objects. This administrative framework will provide the foundation for enterprise endpoint hardening, automated software deployment, centralized logging, and security monitoring throughout the remainder of the Enterprise Security Lab.
+During implementation, Active Directory Users and Computers (ADUC) intermittently became unresponsive after object modifications. Investigation determined:
 
----
+- Active Directory services remained healthy.
+- LDAP queries completed successfully.
+- PowerShell administration functioned normally.
+- Directory objects were created and modified successfully despite ADUC UI freezes.
 
-## Next Project
+PowerShell was used to validate Active Directory functionality and continue administration while troubleshooting the management console.
 
-**Project 04 – Sysmon Deployment**
-
-Objectives:
-
-- Deploy Sysmon
-- Deploy the SwiftOnSecurity configuration
-- Validate event generation
-- Prepare centralized log collection
+This reinforced the importance of validating directory health independently of graphical management tools.
 
 ---
 
-## Related Projects
+# Outcome
 
-- Project 01 – Active Directory Foundation
-- Project 02 – Windows Endpoint Deployment
-- Project 04 – Sysmon Deployment
-- Project 05 – Windows Event Forwarding
-- Project 06 – Wazuh Integration
-- Project 07 – Microsoft Sentinel
+The Enterprise Security Lab now includes a structured Active Directory environment built around enterprise identity management principles.
+
+Administrative identities, standard user accounts, Organizational Units, naming standards, and role-based security groups provide a scalable foundation for future projects involving Group Policy, endpoint hardening, centralized logging, endpoint monitoring, and security operations.
+
+---
+
+**Project Status:** ✅ Complete (Pending Group Policy Baseline)
+
+**Next Project:** Project 04 – Group Policy Baseline
