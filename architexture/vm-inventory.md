@@ -11,14 +11,14 @@ Maintaining an accurate asset inventory is a foundational cybersecurity practice
 
 ---
 
-| Asset ID | Hostname | Role | Purpose | Operating System | Network | Status |
-|----------|----------|------|---------|------------------|---------|--------|
-| INF-001 | Proxmox | Hypervisor | Virtualization platform hosting enterprise infrastructure | Proxmox VE 9 | Infrastructure | Production |
-| INF-002 | OPNsense | Firewall | Routing, firewall, DHCP, DNS, WireGuard VPN | OPNsense | Infrastructure | Production |
-| VM-001 | DC01 | Domain Controller | Active Directory, DNS, Group Policy | Windows Server 2022 | Main (10.10.10.0/24) | Production |
-| VM-002 | WIN11-01 | Domain Workstation | Domain-joined Windows Enterprise endpoint for administration, monitoring, and testing | Windows 11 Enterprise | Main (DHCP) | Production |
-| VM-003 | UBU01 | Linux Server | Docker-hosted security services | Ubuntu Server | Main | Planned |
-| VM-004 | ATTACK01 | Attack Workstation | Atomic Red Team and adversary emulation | Windows 11 Enterprise | Isolated Lab VLAN | Planned |
+| Asset ID | Hostname | Classification | Role | Purpose | Operating System | Network | Status |
+|----------|----------|----------------|------|---------|------------------|---------|--------|
+| INF-001 | Proxmox | Infrastructure | Hypervisor | Virtualization platform hosting enterprise infrastructure | Proxmox VE 9 | Infrastructure | Production |
+| INF-002 | OPNsense | Infrastructure | Firewall | Routing, firewall, DHCP, DNS, WireGuard VPN | OPNsense | Infrastructure | Production |
+| VM-001 | DC01 | Server | Domain Controller | Active Directory, Active Directory-integrated DNS, and Group Policy | Windows Server 2022 | Main (10.10.10.0/24) | Production |
+| VM-002 | WIN11-01 | Workstation | Domain Workstation | Domain-joined Windows Enterprise endpoint for administration, security monitoring, and testing | Windows 11 Enterprise | Main (DHCP) | Production |
+| VM-003 | UBU01 | Server | Linux Server | Docker-hosted security services | Ubuntu Server | Main | Planned |
+| VM-004 | ATTACK01 | Workstation | Attack Workstation | Atomic Red Team and adversary emulation | Windows 11 Enterprise | Isolated Lab VLAN | Planned |
 
 ---
 
@@ -29,7 +29,7 @@ Maintaining an accurate asset inventory is a foundational cybersecurity practice
 | Hypervisors | 1 |
 | Firewalls | 1 |
 | Domain Controllers | 1 |
-| Windows Endpoints | 1 |
+| Windows Workstations | 1 |
 | Linux Servers | 0 |
 | Attack Workstations | 0 |
 
