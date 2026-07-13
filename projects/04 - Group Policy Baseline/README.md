@@ -4,7 +4,7 @@
 
 Design and implement an enterprise-style Group Policy architecture that provides centralized management of Windows systems while establishing the security baseline for the Enterprise Security Lab.
 
-This project introduces centralized endpoint management through Group Policy and lays the foundation for future projects involving endpoint hardening, logging, Microsoft Defender, Windows Event Forwarding (WEF), Wazuh, Microsoft Sentinel, and other enterprise security technologies.
+This project introduces centralized endpoint management through Group Policy and establishes the foundational auditing and logging capabilities that future projects will build upon, including Windows Event Forwarding (WEF), Microsoft Defender, Wazuh, and Microsoft Sentinel.
 
 ---
 
@@ -13,7 +13,7 @@ This project introduces centralized endpoint management through Group Policy and
 - Design a scalable Group Policy architecture.
 - Understand Group Policy processing and inheritance.
 - Implement Advanced Audit Policies.
-- Configure PowerShell logging.
+- Configure PowerShell logging and transcription.
 - Develop enterprise logging standards.
 - Validate Group Policy deployment using native Windows tools.
 - Prepare the environment for centralized security monitoring.
@@ -28,19 +28,21 @@ This project introduces centralized endpoint management through Group Policy and
 - Group Policy Management Console (GPMC)
 - Advanced Audit Policy Configuration
 - Windows PowerShell Logging
+- Windows PowerShell Transcription
 - Windows Event Viewer
 - Windows Server 2022
 - Windows 11 Enterprise
 
-## Planned
+## Future Projects
 
-- Windows Event Log Management
+- Windows Event Forwarding (WEF)
 - Microsoft Defender
 - Windows Defender Firewall
+- Administrative Templates
 - Windows Security Options
 - Windows Update
-- Administrative Templates
-- Windows Event Forwarding (WEF)
+- Wazuh Integration
+- Microsoft Sentinel Integration
 
 ---
 
@@ -50,8 +52,7 @@ This project introduces centralized endpoint management through Group Policy and
 
 - [x] Created Workstation Baseline GPO
 - [x] Created Domain Controller Baseline GPO
-- [x] Linked Workstation Baseline GPO
-- [x] Linked Domain Controller Baseline GPO
+- [x] Linked GPOs to Organizational Units
 - [x] Validated Group Policy processing
 - [x] Created recovery snapshots
 
@@ -63,7 +64,7 @@ This project introduces centralized endpoint management through Group Policy and
 - [x] Configured User Account Management auditing
 - [x] Configured Logon auditing
 - [x] Configured Logoff auditing
-- [x] Validated Advanced Audit Policy
+- [x] Validated Advanced Audit Policy deployment
 
 ---
 
@@ -72,46 +73,26 @@ This project introduces centralized endpoint management through Group Policy and
 - [x] Enabled Script Block Logging
 - [x] Enabled Script Block Invocation Logging
 - [x] Enabled Module Logging
+- [x] Enabled PowerShell Transcription
 - [x] Validated PowerShell Operational logging
-- [ ] Configure PowerShell Transcription
+- [x] Validated PowerShell Transcription
 
 ---
 
-## 🚧 Event Log Management
+## ✅ Project Validation
 
-- [ ] Configure Security Log Size
-- [ ] Configure Application Log Size
-- [ ] Configure System Log Size
-- [ ] Configure Setup Log Size
-
----
-
-## ⏳ Endpoint Protection
-
-- [ ] Configure Microsoft Defender
-- [ ] Configure Windows Defender Firewall
-
----
-
-## ⏳ Operating System Security
-
-- [ ] Configure Security Options
-- [ ] Configure Windows Update
-- [ ] Configure Administrative Templates
-
----
-
-## ⏳ Future Integration
-
-- [ ] Windows Event Forwarding (WEF)
-- [ ] Wazuh Integration
-- [ ] Microsoft Sentinel Integration
+- [x] Validated Group Policy processing
+- [x] Validated Advanced Audit Policy
+- [x] Validated PowerShell logging
+- [x] Validated Active Directory health
+- [x] Verified workstation communication with the domain
+- [x] Completed project documentation
 
 ---
 
 # Group Policy Architecture
 
-```
+```text
 Group Policy Objects
 │
 ├── Default Domain Policy
@@ -127,7 +108,7 @@ Group Policy Objects
 | GPO - Workstation Baseline | Workstations OU |
 | GPO - Domain Controller Baseline | Domain Controllers OU |
 
-Custom policies are intentionally linked only to the Organizational Units they manage. No custom Group Policy Objects are linked at the domain root.
+Custom Group Policy Objects are intentionally linked only to the Organizational Units they manage. No custom GPOs are linked at the domain root.
 
 ---
 
@@ -158,40 +139,21 @@ auditpol /get /category:*
 
 PowerShell logging was implemented to improve visibility into administrative activity and provide telemetry for future security monitoring platforms.
 
-Configured features include:
+Configured capabilities include:
 
 - Script Block Logging
 - Script Block Invocation Logging
 - Module Logging
-
-Validation was performed using:
-
-```powershell
-Get-WinEvent -LogName "Microsoft-Windows-PowerShell/Operational"
-```
+- PowerShell Transcription
 
 Validation confirmed:
 
 - Event ID 4103 (Module Logging)
 - Event ID 4104 (Script Block Logging)
-- Event IDs 4105/4106 (Invocation Start/Stop)
+- Event IDs 4105/4106 (Invocation Logging)
+- PowerShell transcript generation
 
-These events will later be collected through Windows Event Forwarding and ingested into Wazuh and Microsoft Sentinel.
-
----
-
-## Event Log Management
-
-This capability is currently in progress.
-
-The objective is to increase Windows Event Log retention to better support enterprise monitoring and forensic investigations.
-
-Planned configuration:
-
-- Security Log
-- Application Log
-- System Log
-- Setup Log
+These logs provide detailed administrative visibility and will later be collected through Windows Event Forwarding and forwarded to Wazuh and Microsoft Sentinel.
 
 ---
 
@@ -224,60 +186,145 @@ Get-WinEvent -LogName "Microsoft-Windows-PowerShell/Operational"
 
 ---
 
+## Active Directory
+
+```cmd
+dcdiag
+repadmin /replsummary
+```
+
+Validation confirmed:
+
+- Active Directory healthy
+- DNS healthy
+- SYSVOL healthy
+- Replication healthy
+- Group Policy processing successfully
+
+---
+
 # Engineering Decisions
 
 | Decision | Reason |
 |----------|--------|
 | Separate workstation and domain controller baselines | Independent management and reduced administrative risk |
 | Link GPOs to Organizational Units | Limits policy scope and follows enterprise best practices |
-| Use Advanced Audit Policies | Provides granular auditing and avoids legacy audit policy conflicts |
-| Visibility before hardening | Logging is established before restrictive security controls are applied |
-| Validate every configuration | Native Windows tools verify effective policy rather than assuming successful deployment |
-| Capability-driven implementation | Security features are implemented and validated one capability at a time |
+| Use Advanced Audit Policies | Provides granular auditing while avoiding legacy audit policy conflicts |
+| Enable visibility before hardening | Logging should exist before restrictive security controls are applied |
+| Validate every configuration | Native Windows tools verify effective policy instead of assuming success |
+| Capability-driven implementation | Features are implemented and validated one capability at a time |
 
 ---
 
 # Challenges Encountered
 
-During initial testing, Remote Desktop sessions to WIN11-01 disconnected immediately following Group Policy refreshes.
+During project validation, multiple infrastructure issues affected the virtual lab environment.
 
-Investigation determined:
+## WIN11-01
 
-- Group Policy processed successfully.
-- Advanced Audit Policies applied correctly.
-- PowerShell logging functioned as expected.
-- The issue coincided with memory pressure and active swap usage on the Proxmox host.
+Remote Desktop sessions disconnected intermittently while the virtual machine remained operational.
 
-Following host maintenance and a Proxmox reboot:
+Initial investigation included:
 
-- Swap usage returned to zero.
-- RDP stability was restored.
-- Group Policy updates completed successfully without interruption.
+- Group Policy
+- Remote Desktop Services
+- PowerShell Logging
+- VirtIO drivers
+- Windows Event Logs
 
-This reinforced the importance of validating hypervisor health before attributing issues to guest operating system configuration.
+No Group Policy configuration was identified as the cause.
+
+---
+
+## DC01
+
+Following a scheduled Proxmox host reboot, the domain controller entered the Windows Recovery Environment and would not boot normally.
+
+Investigation verified:
+
+- EFI boot configuration
+- VirtIO storage drivers
+- GPT partition layout
+- VM configuration
+- Active Directory services
+
+---
+
+## Root Cause
+
+Further investigation identified the Proxmox LVM-Thin storage pool had reached **100% utilization**.
+
+This prevented new thin volumes from being created and introduced storage pressure capable of affecting guest virtual machines.
+
+Corrective actions included:
+
+- Extending the LVM-Thin storage pool
+- Removing unnecessary RAM snapshots
+- Rolling back the domain controller to the Project04 milestone snapshot
+
+Following recovery:
+
+- Active Directory health validated successfully
+- Group Policy processing confirmed
+- PowerShell logging remained operational
+- Infrastructure stability restored
+
+This incident reinforced the importance of validating hypervisor health before troubleshooting guest operating systems.
+
+---
+
+# Lessons Learned
+
+- Infrastructure failures can present as operating system failures.
+- Thin-provisioned storage requires continuous monitoring.
+- Disk-only snapshots are preferable to memory snapshots for long-term rollback points.
+- Root cause analysis is more valuable than immediately rebuilding systems.
+- Enterprise operations require validating the infrastructure layer before troubleshooting applications or operating systems.
 
 ---
 
 # Outcome
 
-Project 04 successfully established the Enterprise Security Lab's Group Policy architecture while implementing enterprise-grade auditing and PowerShell visibility.
+Project 04 successfully established the foundational Group Policy architecture for the Enterprise Security Lab.
 
-The Windows environment now generates centralized authentication, account management, and PowerShell telemetry that will serve as the foundation for future endpoint monitoring, Windows Event Forwarding, Wazuh, and Microsoft Sentinel integration.
+Implemented capabilities include:
+
+- Enterprise Group Policy architecture
+- Advanced Audit Policy
+- PowerShell Operational Logging
+- PowerShell Transcription
+- Enterprise validation procedures
+
+The project also highlighted the importance of virtualization infrastructure health. During validation, a full Proxmox LVM-Thin storage pool caused guest operating system instability, emphasizing that hypervisor health must be verified before attributing issues to Windows configuration.
+
+The environment now provides centralized policy management and foundational endpoint telemetry for future projects involving Windows Event Forwarding, Microsoft Defender, Wazuh, and Microsoft Sentinel.
 
 ---
 
-**Project Status:** 🚧 In Progress
+# Project Status
 
-**Completed Capabilities**
+## ✅ Completed
 
-- ✅ Infrastructure
-- ✅ Audit & Accountability
-- ✅ PowerShell Visibility
+### Completed Capabilities
 
-**Current Capability**
+- ✅ Group Policy Architecture
+- ✅ Organizational Unit Design
+- ✅ Advanced Audit Policy
+- ✅ PowerShell Logging
+- ✅ PowerShell Transcription
+- ✅ Group Policy Validation
+- ✅ Active Directory Validation
+- ✅ Documentation
 
-- 🚧 Event Log Management
+---
 
-**Next Capability**
+## Future Projects
 
-- Endpoint Protection
+- Windows Event Forwarding (WEF)
+- Microsoft Defender Baseline
+- Windows Defender Firewall
+- Administrative Templates
+- Windows Security Options
+- Windows Update Management
+- Wazuh Integration
+- Microsoft Sentinel Integration
