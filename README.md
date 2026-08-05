@@ -2,15 +2,15 @@
 
 ## Overview
 
-This repository documents my enterprise-inspired cybersecurity lab, built to develop practical skills in identity, infrastructure, networking, and security operations while applying enterprise security principles to my own home environment.
+This repository documents my enterprise-inspired cybersecurity lab, built to develop practical skills in identity, infrastructure, networking, virtualization, and security operations while applying enterprise security principles to my own home environment.
 
-Rather than treating technologies as isolated tools, I designed this lab to better understand how identity, networking, monitoring, virtualization, and layered security controls work together to reduce risk, improve operational visibility, and build resilient infrastructure.
+Rather than treating technologies as isolated tools, I designed this lab to understand how identity, networking, monitoring, virtualization, and layered security controls work together to reduce risk, improve operational visibility, and build resilient infrastructure.
 
-Everything documented here reflects technologies I actively use, architectural decisions I've made, lessons I've learned, and areas I'm continuously improving.
+Everything documented here reflects technologies I actively use, architectural decisions I've made, lessons learned, and areas I'm continuously improving.
 
 ---
 
-## Design Goals
+# Design Goals
 
 - Apply enterprise security principles to a home environment.
 - Strengthen practical skills through hands-on experimentation.
@@ -21,7 +21,7 @@ Everything documented here reflects technologies I actively use, architectural d
 
 ---
 
-## Operational Philosophy
+# Operational Philosophy
 
 This lab is operated using the same engineering principles applied in enterprise environments.
 
@@ -33,48 +33,48 @@ The objective is not simply to build infrastructure, but to understand how to de
 
 ---
 
-## High-Level Architecture
+# High-Level Architecture
 
-```text
-                     Internet
-                         │
-                    Cox Gateway
-                         │
-                  OPNsense Firewall
-                         │
-                  UniFi Switching
-                         │
+```
+                    Internet
+                        │
+                   Cox Gateway
+                        │
+                 OPNsense Firewall
+                        │
+                 UniFi Switching
+                        │
 ────────────────────────────────────────────────────────
 │              │              │               │
 Main         IoT           Media           Guest
-                         │
-        ┌──────────────────────────────────┐
-        │                                  │
-    Unraid                          Proxmox VE
-        │                                  │
+                        │
+       ┌──────────────────────────────────┐
+       │                                  │
+   Unraid                          Proxmox VE
+       │                                  │
  Docker Containers              Windows Infrastructure
-        │                                  │
- Grafana / InfluxDB              Active Directory
- Telegraf                        Windows 11
- UniFi Poller                    Wazuh
+       │                                  │
+Grafana / InfluxDB             Active Directory
+Telegraf                       Windows 11
+UniFi Poller                   Wazuh SIEM
 ```
 
 ---
 
-## Core Technologies
+# Core Technologies
 
-### Infrastructure
+## Infrastructure
 
 - Proxmox VE
 - Unraid
 - Docker
 
-### Identity
+## Identity
 
 - Microsoft Active Directory
 - Microsoft Entra ID *(planned integration)*
 
-### Networking
+## Networking
 
 - OPNsense
 - UniFi Switching
@@ -83,15 +83,16 @@ Main         IoT           Media           Guest
 - DNS
 - DHCP (Dnsmasq)
 
-### Security
+## Security
 
 - Microsoft Defender
+- Wazuh SIEM
+- Sysmon
 - CrowdSec
 - Suricata IDS
 - Unbound DNS Filtering
-- Wazuh *(deployment in progress)*
 
-### Monitoring
+## Monitoring
 
 - Grafana
 - InfluxDB
@@ -100,68 +101,113 @@ Main         IoT           Media           Guest
 
 ---
 
-## Repository Contents
+# Current Project Status
+
+| Project | Status |
+|----------|:------:|
+| 01 - Active Directory Foundation | ✅ |
+| 02 - Windows Endpoint Deployment | ✅ |
+| 03 - Active Directory Administration | ✅ |
+| 04 - Group Policy Baseline | ✅ |
+| 05 - Endpoint Telemetry and SIEM Integration | ✅ |
+| 06 - Detection Engineering | 🚧 In Progress |
+
+---
+
+# Skills Demonstrated
+
+- Active Directory Administration
+- Windows Server Administration
+- Group Policy Management
+- Windows Endpoint Deployment
+- Virtualization with Proxmox
+- Enterprise Networking
+- VLAN Design
+- Firewall Administration
+- SIEM Deployment
+- Endpoint Telemetry Collection
+- Sysmon Configuration
+- Security Monitoring
+- MITRE ATT&CK Mapping
+- PowerShell
+- Documentation
+- Troubleshooting
+- Root Cause Analysis
+
+---
+
+# Repository Structure
 
 ```
 Enterprise-Security-Lab/
 │
+├── architecture/
+│   ├── network-diagrams.md
+│   └── vm-inventory.md
+│
+├── case-studies/
+│
 ├── docs/
-│   ├── Architecture
-│   ├── Networking
-│   ├── Identity
-│   ├── Monitoring
-│   └── Security
+│
+├── homelab/
 │
 ├── projects/
-│   ├── Project 01
-│   ├── Project 02
-│   ├── Project 03
-│   └── Project 04
+│   ├── 01 - Active Directory Foundation
+│   ├── 02 - Windows Endpoint Deployment
+│   ├── 03 - Active Directory Administration
+│   ├── 04 - Group Policy Baseline
+│   ├── 05 - Endpoint Telemetry and SIEM Integration
+│   └── 06 - Detection Engineering
 │
-├── diagrams/
+├── opnsense-firewall/
 │
-├── images/
-│
-├── standards/
-│   ├── Snapshot-Policy.md
-│   ├── Backup-Strategy.md
-│   ├── Monitoring-Standards.md
-│   └── Naming-Conventions.md
-│
+├── LICENSE
 └── README.md
 ```
 
 ---
 
-## Current Roadmap
+# Featured Projects
 
-### Identity
+- **Project 01 – Active Directory Foundation**
+- **Project 02 – Windows Endpoint Deployment**
+- **Project 03 – Active Directory Administration**
+- **Project 04 – Group Policy Baseline**
+- **Project 05 – Endpoint Telemetry and SIEM Integration**
+- **Project 06 – Detection Engineering** *(In Progress)*
+
+---
+
+# Current Roadmap
+
+## Identity
 
 - Expand Active Directory implementation.
 - Integrate Microsoft Entra ID with on-premises identity.
 
-### Infrastructure
+## Infrastructure
 
 - Standardize virtual machine lifecycle management.
 - Configure LVM Thin Pool auto-extension.
 - Continue refining network segmentation.
 - Improve backup and recovery procedures.
 
-### Monitoring
+## Monitoring
 
 - Integrate Proxmox host metrics into Grafana.
 - Monitor LVM Thin Pool utilization.
 - Create infrastructure health alerts.
 - Expand Wazuh telemetry collection.
 
-### Security
+## Security
 
 - Continue hardening Windows and Linux systems.
 - Expand endpoint visibility.
 - Improve centralized logging.
-- Validate additional enterprise security controls.
+- Develop custom Wazuh detection rules.
+- Perform attack simulations and incident response exercises.
 
-### Documentation
+## Documentation
 
 - Continue documenting projects.
 - Record architectural decisions.
@@ -170,18 +216,16 @@ Enterprise-Security-Lab/
 
 ---
 
-## Operational Standards
+# Operational Standards
 
-The lab follows several operational standards designed to maintain consistency and improve recoverability.
-
-### Snapshot Policy
+## Snapshot Policy
 
 - Create one disk-only snapshot before each major project.
 - Do not include VM memory unless troubleshooting.
 - Validate project completion before removing older snapshots.
-- Maintain only one milestone snapshot per virtual machine.
+- Maintain one milestone snapshot per virtual machine.
 
-### Documentation Policy
+## Documentation Policy
 
 Every major project includes:
 
@@ -191,7 +235,7 @@ Every major project includes:
 - Lessons Learned
 - Future Improvements
 
-### Monitoring Policy
+## Monitoring Policy
 
 Critical infrastructure should generate alerts for:
 
@@ -203,7 +247,7 @@ Critical infrastructure should generate alerts for:
 
 ---
 
-## Lessons Learned
+# Lessons Learned
 
 One of the primary goals of this lab is learning through both successful implementations and operational failures.
 
@@ -219,105 +263,10 @@ These lessons are documented alongside each project to continuously improve both
 
 ---
 
-## Purpose
+# Purpose
 
 This repository represents the ongoing development of a practical enterprise security environment.
 
 Rather than focusing solely on individual technologies, the objective is to understand how infrastructure, identity, networking, monitoring, and security controls work together to create a resilient, maintainable, and secure environment.
 
-As the lab evolves, the documentation evolves with it—capturing not only successful implementations, but also the troubleshooting, recovery, and operational improvements that are part of managing enterprise infrastructure.# Enterprise Security Lab
-
-## Overview
-
-This repository documents my enterprise-inspired cybersecurity lab, built to develop practical skills in identity, infrastructure, networking, and security operations while applying enterprise security principles to my own home environment.
-
-Rather than treating technologies as isolated tools, I designed this lab to better understand how identity, networking, monitoring, and layered security controls work together to reduce risk and improve operational visibility.
-
-Everything documented here reflects technologies I actively use, decisions I've made, lessons I've learned, and areas I'm continuing to improve.
-
----
-
-## Design Goals
-
-* Apply enterprise security principles to a home environment.
-* Strengthen practical skills through hands-on experimentation.
-* Build and document repeatable, well-understood solutions.
-* Validate security concepts before recommending similar approaches professionally.
-* Continuously improve the environment as new technologies and security practices evolve.
-
----
-
-## High-Level Architecture
-
-```text
-Internet
-    │
-Cox Gateway
-    │
-OPNsense Firewall
-    │
-UniFi Switching
-    │
-────────────────────────────────
-│          │         │         │
-Main      IoT      Media     Guest
-    │
-Unraid • Proxmox • Infrastructure
-```
-
----
-
-## Core Technologies
-
-### Infrastructure
-
-* Proxmox
-* Unraid
-* Docker
-
-### Identity
-
-* Microsoft Entra ID
-* Active Directory *(currently under development)*
-
-### Networking
-
-* OPNsense
-* UniFi Switching
-* WireGuard VPN
-* VLAN Segmentation
-* DNS
-* DHCP (Dnsmasq)
-
-### Security
-
-* Microsoft Defender
-* CrowdSec
-* Suricata IDS
-* Unbound DNS Filtering
-
-### Monitoring
-
-* Grafana
-* InfluxDB
-* UniFi Poller
-* Telegraf
-
----
-
-## Repository Contents
-
-* **docs/** — Detailed documentation covering architecture, networking, identity, monitoring, and future plans.
-* **diagrams/** — Network and architecture diagrams.
-* **projects/** — Individual projects, configuration decisions, and lessons learned.
-* **images/** — Supporting screenshots and diagrams.
-
----
-
-## Current Roadmap
-
-* Expand Active Directory implementation.
-* Integrate Microsoft Entra ID with on-premises identity.
-* Forward security telemetry into Wazuh.
-* Continue refining network segmentation and security monitoring.
-* Document security decisions, architecture changes, and lessons learned.
+As the lab evolves, the documentation evolves with it—capturing not only successful implementations, but also the troubleshooting, recovery, and operational improvements that are part of managing enterprise infrastructure.
