@@ -1,6 +1,7 @@
-#Building a Secure Network with OPNsense
+# Building a Secure Network with OPNsense
 
-##Overview
+## Overview
+
 
 OPNsense serves as the security boundary for my home lab, providing routing, firewall policy, DNS services, DHCP, VPN connectivity, intrusion detection, and network segmentation.
 
