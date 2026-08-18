@@ -68,7 +68,7 @@ The network is designed around multiple security zones rather than a single flat
                         |
                  Isolated Network
 
-The exact addressing, VLAN identifiers, interface assignments, and management details are intentionally omitted from this public documentation.
+
 
 ## Network Segmentation
 
